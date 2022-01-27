@@ -90,8 +90,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 # SELENIUM
 
-
 SELENIUM_DRIVER_NAME = 'chrome'
 SELENIUM_DRIVER_EXECUTABLE_PATH = which('chromedriver')
 # '--headless' if using chrome instead of firefox
-SELENIUM_DRIVER_ARGUMENTS = ['-headless']
+SELENIUM_DRIVER_ARGUMENTS = ['--headless']
