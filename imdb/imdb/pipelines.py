@@ -4,7 +4,6 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-import logging
 import pymongo
 import sqlite3
 
@@ -12,16 +11,27 @@ import sqlite3
 class MongodbPipeline(object):
     collection_name = "best_movies"
 
+    def __init__(self, mongo_uri, mongo_db):
+        self.mongo_uri = mongo_uri
+        self.mongo_db = mongo_db
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongo_uri=crawler.settings.get('MONGO_URI'),
+            mongo_db=crawler.settings.get('MONGO_DATABASE', 'IMDB')
+            # name of db has collections
+        )
+
     def open_spider(self, spider):
-        self.client = pymongo.MongoClient(
-            "mongodb+srv://hoanganh:hoanganh@cluster0.empem.mongodb.net/scrapy?authSource=admin&replicaSet=atlas-e578ds-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true")
-        self.db = self.client["IMDB"]
+        self.client = pymongo.MongoClient(self.mongo_uri)
+        self.db = self.client[self.mongo_db]
 
     def close_spider(self, spider):
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[self.collection_name].insert(item)
+        self.db[self.collection_name].insert_one(item)
         return item
 
 

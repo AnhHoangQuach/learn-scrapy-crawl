@@ -66,6 +66,8 @@ ITEM_PIPELINES = {
     'imdb.pipelines.MongodbPipeline': 300,
 }
 
+MONGO_URI = "mongodb+srv://hoanganh:hoanganh@cluster0.empem.mongodb.net/test?authSource=admin&replicaSet=atlas-e578ds-shard-0&w=majority&readPreference=primary&appname=MongoDB%20Compass&retryWrites=true&ssl=true"
+
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True
